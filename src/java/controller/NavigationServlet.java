@@ -72,6 +72,26 @@ public class NavigationServlet extends HttpServlet {
                 rd.forward(request, response);
                 break;
             }
+            
+            case "naiveBayes": {
+                List<File> files = new DaoFile(path).list();
+
+                request.setAttribute("files", files);
+
+                rd = request.getRequestDispatcher("naiveBayesCreate.jsp");
+                rd.forward(request, response);
+                break;
+            }
+            
+            case "bothClassifications":{
+                List<File> files = new DaoFile(path).list();
+
+                request.setAttribute("files", files);
+
+                rd = request.getRequestDispatcher("bothClassificationsCreate.jsp");
+                rd.forward(request, response);
+                break;
+            }
             default:
                 response.sendError(404);
         }

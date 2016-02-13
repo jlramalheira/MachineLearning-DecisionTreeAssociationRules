@@ -31,8 +31,9 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="Navigation?action=index">Home <span class="sr-only">(current)</span></a></li>
-                            <li><a href="Navigation?action=decisionTree">Decision Tree</a></li>
-                            <li><a href="Navigation?action=associationRules">Association Rules</a></li>
+                            <li><a href="Navigation?action=decisionTree">Árvore de Decisão</a></li>
+                            <li><a href="Navigation?action=naiveBayes">Naive Bayes</a></li>
+                            <li><a href="Navigation?action=bothClassifications">Árvore de Decisão e Naive Bayes</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="Navigation?action=upload">Upload</a></li>

@@ -1,5 +1,5 @@
 <%-- 
-    Document   : decisionTreeCreate
+    Document   : associationRulesCreate
     Created on : Feb 10, 2016, 9:10:17 PM
     Author     : joao
 --%>
@@ -38,8 +38,8 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li><a href="Navigation?action=index">Home</a></li>
-                            <li class="active"><a href="Navigation?action=decisionTree">Árvore de Decisão <span class="sr-only">(current)</span></a></li>
-                            <li><a href="Navigation?action=naiveBayes">Naive Bayes</a></li>
+                            <li><a href="Navigation?action=decisionTree">Árvore de Decisão</a></li>
+                            <li class="active"><a href="Navigation?action=naiveBayes">Naive Bayes <span class="sr-only">(current)</span></a></li>
                             <li><a href="Navigation?action=bothClassifications">Árvore de Decisão e Naive Bayes</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -52,14 +52,14 @@
         <div class="container">
             <%@include file="interfaceMessages.jsp" %>
             <div class="col-lg-8">
-                <form action="DecisionTree" method="POST" class="form-horizontal">
+                <form action="NaiveBayes" method="POST" class="form-horizontal">
                     <input type="hidden" id="counter" name="counter" value="1"/>
                     <fieldset>
-                        <legend>Árvore de Decisão</legend>
+                        <legend>Naive Bayes</legend>
                         <div class="form-group">
                             <label for="name" class="col-lg-2 control-label">Nome</label>
                             <div class="col-lg-10">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Nome Árvore" />
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nome Relação" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -206,7 +206,7 @@
 
                 document.getElementById('rows').appendChild(div);
             }
-            
+
             function adult(){
                 document.getElementById('name').setAttribute('value', 'Adult');
                 adjustRange(document.getElementById('range'));
@@ -227,16 +227,16 @@
                 document.getElementById('column-10').setAttribute('value', 'sex');
                 document.getElementById('column-11').setAttribute('value', 'capital-gain');
                 document.getElementById('column-12').setAttribute('value', 'capital-loss');
-                document.getElementById('column-13').setAttribute('value', 'hours-per-week');
-                document.getElementById('column-14').setAttribute('value', 'native-country');
+                    document.getElementById('column-13').setAttribute('value', 'hours-per-week');
+                    document.getElementById('column-14').setAttribute('value', 'native-country');
                 document.getElementById('column-15').setAttribute('value', 'classificação');
 
                 for (var i = 0; i < 15; i++) {
-                    document.getElementById('position-' + (i + 1)).setAttribute('value', i);
+                document.getElementById('position-' + (i + 1)).setAttribute('value', i);
                 }
                 
                 document.getElementById('type-1').setAttribute('value', 'numeric');
-                document.getElementById('type-2').setAttribute('value', 'Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked');
+            document.getElementById('type-2').setAttribute('value', 'Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked');
                 document.getElementById('type-3').setAttribute('value', 'numeric');
                 document.getElementById('type-4').setAttribute('value', 'Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool');
                 document.getElementById('type-5').setAttribute('value', 'numeric');
@@ -253,7 +253,7 @@
                 
                 document.getElementById('handle-15').setAttribute('checked', 'checked');
             }
-
+            
             function wineQuality() {
                 document.getElementById('name').setAttribute('value', 'WineQuality');
                 adjustRange(document.getElementById('range'));

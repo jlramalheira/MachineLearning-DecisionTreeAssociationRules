@@ -14,14 +14,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Limits;
 import util.FormatFiles;
+import weka.associations.Apriori;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -30,8 +35,8 @@ import weka.core.Instances;
  *
  * @author joao
  */
-@WebServlet(name = "DecisionTree", urlPatterns = {"/DecisionTree"})
-public class DecisionTreeServlet extends HttpServlet {
+@WebServlet(name = "NaiveBayes", urlPatterns = {"/NaiveBayes"})
+public class NaiveBayesServlet extends HttpServlet {
 
     RequestDispatcher rd;
 
@@ -39,7 +44,6 @@ public class DecisionTreeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
         String action = request.getParameter("action");
 
         switch (action) {
@@ -56,7 +60,7 @@ public class DecisionTreeServlet extends HttpServlet {
                 request.setAttribute("range", range);
                 request.setAttribute("fileName", fileName);
 
-                rd = request.getRequestDispatcher("decisionTreeView.jsp");
+                rd = request.getRequestDispatcher("naiveBayesView.jsp");
                 rd.forward(request, response);
                 break;
             }
@@ -80,6 +84,7 @@ public class DecisionTreeServlet extends HttpServlet {
                 break;
             }
         }
+
     }
 
     @Override
@@ -99,7 +104,7 @@ public class DecisionTreeServlet extends HttpServlet {
                 String pathInput = path + "/" + request.getParameter("file");
                 String pathTrainingOutput = path + "/" + aux + "-training-arff.txt";
                 String pathTestOutput = path + "/" + aux + "-test-arff.txt";
-                String pathDecisionTree = path + "/" + aux + "-decisionTree.txt";
+                String pathNaivebayes = path + "/" + aux + "-naiveBayes.txt";
 
                 String name = request.getParameter("name");
                 int range = Integer.parseInt(request.getParameter("range"));
@@ -109,8 +114,15 @@ public class DecisionTreeServlet extends HttpServlet {
                 String[] types = new String[size];
                 int[] positions = new int[size];
                 int counter = 0;
+
+                int handle = Integer.parseInt(request.getParameter("handle"));
+                columns[counter] = request.getParameter("column-" + handle);
+                types[counter] = request.getParameter("type-" + handle);
+                positions[counter] = Integer.parseInt(request.getParameter("position-" + handle));
+                counter++;
+
                 for (int i = 0; i < size; i++) {
-                    if (request.getParameter("column-" + (i + 1)) != null) {
+                    if (request.getParameter("column-" + (i + 1)) != null && (i + 1) != handle) {
                         columns[counter] = request.getParameter("column-" + (i + 1));
                         types[counter] = request.getParameter("type-" + (i + 1));
                         positions[counter] = Integer.parseInt(request.getParameter("position-" + (i + 1)));
@@ -119,38 +131,39 @@ public class DecisionTreeServlet extends HttpServlet {
                 }
 
                 FormatFiles.convertTxtToArff(pathInput, pathTrainingOutput, pathTestOutput, name, columns, types, positions, counter, range);
+                
                 try {
-                    J48 j48 = new J48();
+                    NaiveBayes naiveBayes = new NaiveBayes();
 
                     BufferedReader readerTraining = new BufferedReader(new FileReader(pathTrainingOutput));
                     Instances instancesTraining = new Instances(readerTraining);
                     instancesTraining.setClassIndex(instancesTraining.numAttributes() - 1);
 
-                    j48.buildClassifier(instancesTraining);
+                    naiveBayes.buildClassifier(instancesTraining);
 
                     BufferedReader readerTest = new BufferedReader(new FileReader(pathTestOutput));
                     //BufferedReader readerTest = new BufferedReader(new FileReader(pathTrainingOutput));
                     Instances instancesTest = new Instances(readerTest);
                     instancesTest.setClassIndex(instancesTest.numAttributes() - 1);
 
+                    Evaluation eval = new Evaluation(instancesTraining);
+                    eval.evaluateModel(naiveBayes, instancesTest);
+                    
                     int corrects = 0;
 
                     for (int i = 0; i < instancesTest.size(); i++) {
                         Instance instance = instancesTest.get(i);
                         double correctValue = instance.value(instance.attribute(instancesTest.numAttributes() - 1));
-                        double classification = j48.classifyInstance(instance);
+                        double classification = naiveBayes.classifyInstance(instance);
 
                         if (correctValue == classification) {
                             corrects++;
                         }
                     }
+                    
+                    PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(pathNaivebayes, false)));
 
-                    Evaluation eval = new Evaluation(instancesTraining);
-                    eval.evaluateModel(j48, instancesTest);
-
-                    PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(pathDecisionTree, false)));
-
-                    writer.println(j48.toString());
+                    writer.println(naiveBayes.toString());
                     
                     writer.println("");
                     writer.println("");
@@ -159,14 +172,15 @@ public class DecisionTreeServlet extends HttpServlet {
 
                     writer.close();
 
-                    response.sendRedirect("DecisionTree?action=view&corrects=" + corrects
+                    response.sendRedirect("NaiveBayes?action=view&corrects=" + corrects
                             + "&totalTest=" + instancesTest.size()
                             + "&totalTrainig=" + instancesTraining.size()
                             + "&range=" + range
-                            + "&fileName=" + aux + "-decisionTree.txt");
+                            + "&fileName=" + aux + "-naiveBayes.txt");
+
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    response.sendRedirect("Navigation?action=decisionTree");
+                    response.sendRedirect("Navigation?action=naiveBayes");
                 }
 
                 break;
@@ -174,6 +188,7 @@ public class DecisionTreeServlet extends HttpServlet {
             default:
                 response.sendError(404);
         }
+
     }
 
     @Override

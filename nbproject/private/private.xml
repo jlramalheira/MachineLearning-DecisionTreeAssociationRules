@@ -4,12 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/joao/NetBeansProjects/Toptype/web/index.jsp</file>
-            <file>file:/home/joao/NetBeansProjects/Toptype/web/css/style.css</file>
             <file>file:/home/joao/NetBeansProjects/Toptype/web/upload.jsp</file>
             <file>file:/home/joao/NetBeansProjects/Toptype/src/java/controller/NavigationServlet.java</file>
             <file>file:/home/joao/NetBeansProjects/Toptype/src/java/util/FormatFiles.java</file>
             <file>file:/home/joao/NetBeansProjects/Toptype/src/java/controller/DecisionTreeServlet.java</file>
+            <file>file:/home/joao/NetBeansProjects/Toptype/src/java/controller/AssociationRulesServlet.java</file>
+            <file>file:/home/joao/NetBeansProjects/Toptype/src/java/model/Limits.java</file>
+            <file>file:/home/joao/NetBeansProjects/Toptype/web/associationRulesCreate.jsp</file>
             <file>file:/home/joao/NetBeansProjects/Toptype/web/decisionTreeCreate.jsp</file>
+            <file>file:/home/joao/NetBeansProjects/Toptype/web/decisionTreeView.jsp</file>
         </group>
     </open-files>
 </project-private>

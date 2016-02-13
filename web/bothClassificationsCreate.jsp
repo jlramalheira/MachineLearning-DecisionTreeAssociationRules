@@ -1,6 +1,6 @@
 <%-- 
-    Document   : decisionTreeCreate
-    Created on : Feb 10, 2016, 9:10:17 PM
+    Document   : bothCreate
+    Created on : Feb 13, 2016, 6:40:58 PM
     Author     : joao
 --%>
 
@@ -38,9 +38,9 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li><a href="Navigation?action=index">Home</a></li>
-                            <li class="active"><a href="Navigation?action=decisionTree">Árvore de Decisão <span class="sr-only">(current)</span></a></li>
+                            <li><a href="Navigation?action=decisionTree">Árvore de Decisão</a></li>
                             <li><a href="Navigation?action=naiveBayes">Naive Bayes</a></li>
-                            <li><a href="Navigation?action=bothClassifications">Árvore de Decisão e Naive Bayes</a></li>
+                            <li class="active"><a href="Navigation?action=bothClassifications">Árvore de Decisão e Naive Bayes <span class="sr-only">(current)</span></a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="Navigation?action=upload">Upload</a></li>
@@ -52,10 +52,10 @@
         <div class="container">
             <%@include file="interfaceMessages.jsp" %>
             <div class="col-lg-8">
-                <form action="DecisionTree" method="POST" class="form-horizontal">
+                <form action="BothClassifications" method="POST" class="form-horizontal">
                     <input type="hidden" id="counter" name="counter" value="1"/>
                     <fieldset>
-                        <legend>Árvore de Decisão</legend>
+                        <legend>Árvore de Decisão e Naive Bayes</legend>
                         <div class="form-group">
                             <label for="name" class="col-lg-2 control-label">Nome</label>
                             <div class="col-lg-10">
