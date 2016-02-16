@@ -45,7 +45,8 @@
         <div class="container">
             <%@include file="interfaceMessages.jsp" %>
             <div class="row">
-                <h2>Bem vindo ao Toptype!</h2>
+                <h3>Bem vindo ao Toptype!</h3>
+                <p>O <strong>TopType</strong>  uma ferramenta Web para classificação dos dados a partir do aprendizado de máquina.</p>
             </div>
         </div>
         <%@include file="interfaceFooter.jsp" %>

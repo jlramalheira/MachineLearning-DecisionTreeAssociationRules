@@ -47,14 +47,20 @@ public class DecisionTreeServlet extends HttpServlet {
                 int corrects = Integer.parseInt(request.getParameter("corrects"));
                 int totalTest = Integer.parseInt(request.getParameter("totalTest"));
                 int totalTrainig = Integer.parseInt(request.getParameter("totalTrainig"));
-                int range = Integer.parseInt(request.getParameter("range"));
+                int truePositive = Integer.parseInt(request.getParameter("truePositive"));
+                int trueNegative = Integer.parseInt(request.getParameter("trueNegative"));
+                int falsePositive = Integer.parseInt(request.getParameter("falsePositive"));
+                int falseNegative = Integer.parseInt(request.getParameter("falseNegative"));
                 String fileName = request.getParameter("fileName");
 
                 request.setAttribute("corrects", corrects);
                 request.setAttribute("totalTest", totalTest);
                 request.setAttribute("totalTrainig", totalTrainig);
-                request.setAttribute("range", range);
                 request.setAttribute("fileName", fileName);
+                request.setAttribute("truePositive", truePositive);
+                request.setAttribute("trueNegative", trueNegative);
+                request.setAttribute("falsePositive", falsePositive);
+                request.setAttribute("falseNegative", falseNegative);              
 
                 rd = request.getRequestDispatcher("decisionTreeView.jsp");
                 rd.forward(request, response);
@@ -134,6 +140,10 @@ public class DecisionTreeServlet extends HttpServlet {
                     instancesTest.setClassIndex(instancesTest.numAttributes() - 1);
 
                     int corrects = 0;
+                    int truePositive = 0;
+                    int trueNegative = 0;
+                    int falsePositive = 0;
+                    int falseNegative = 0;
 
                     for (int i = 0; i < instancesTest.size(); i++) {
                         Instance instance = instancesTest.get(i);
@@ -143,6 +153,18 @@ public class DecisionTreeServlet extends HttpServlet {
                         if (correctValue == classification) {
                             corrects++;
                         }
+                        if (correctValue == 1 && classification == 1) {
+                            truePositive++;
+                        }
+                        if (correctValue == 1 && classification == 0) {
+                            falseNegative++;
+                        }
+                        if (correctValue == 0 && classification == 1) {
+                            falsePositive++;
+                        }
+                        if (correctValue == 0 && classification == 0) {
+                            trueNegative++;
+                        }
                     }
 
                     Evaluation eval = new Evaluation(instancesTraining);
@@ -151,7 +173,7 @@ public class DecisionTreeServlet extends HttpServlet {
                     PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(pathDecisionTree, false)));
 
                     writer.println(j48.toString());
-                    
+
                     writer.println("");
                     writer.println("");
                     writer.println("Results");
@@ -162,7 +184,10 @@ public class DecisionTreeServlet extends HttpServlet {
                     response.sendRedirect("DecisionTree?action=view&corrects=" + corrects
                             + "&totalTest=" + instancesTest.size()
                             + "&totalTrainig=" + instancesTraining.size()
-                            + "&range=" + range
+                            + "&truePositive=" + truePositive
+                            + "&trueNegative=" + trueNegative
+                            + "&falsePositive=" + falsePositive
+                            + "&falseNegative=" + falseNegative
                             + "&fileName=" + aux + "-decisionTree.txt");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

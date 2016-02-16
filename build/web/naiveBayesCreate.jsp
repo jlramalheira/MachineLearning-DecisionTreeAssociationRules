@@ -117,7 +117,6 @@
                 </form>
             </div>
             <div class="col-lg-4">
-                <button type="button" class="btn btn-success" onclick="wineQuality()">Wine Quality</button>
                 <button type="button" class="btn btn-success" onclick="adult()">Adult</button>
             </div>
         </div>
@@ -193,7 +192,7 @@
                 divColumn.appendChild(createInput('column-' + counter, 'column-' + counter, 'text', 'Titulo Coluna', 'form-control', '', ''));
                 divType.appendChild(createInput('type-' + counter, 'type-' + counter, 'text', 'Tipo', 'form-control', '', ''));
                 divPosition.appendChild(createInput('position-' + counter, 'position-' + counter, 'text', 'Posição', 'form-control', '', ''));
-                divButton.appendChild(createButton('removeAtribute-' + counter, 'removeAtribute', counter, 'button', '', ''));
+                divButton.appendChild(createButton('removeAtribute', counter, 'button'));
 
                 div.appendChild(divHandle);
                 div.appendChild(divColumn);

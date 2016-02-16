@@ -14,6 +14,10 @@
     int totalTest = (int) request.getAttribute("totalTest");
     int totalTrainig = (int) request.getAttribute("totalTrainig");
     String fileName = (String) request.getAttribute("fileName");
+    int truePositive = (int) request.getAttribute("truePositive");
+    int trueNegative = (int) request.getAttribute("trueNegative");
+    int falsePositive = (int) request.getAttribute("falsePositive");
+    int falseNegative = (int) request.getAttribute("falseNegative");
 %>
 <html>
     <head>
@@ -68,11 +72,41 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-5">
                 <div id="chart_div"></div>
             </div>
-            <div class="col-lg-2">
-
+            <div class="col-lg-4">
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Predição Positiva</th>
+                                <th>Predição Negativa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Caso Positivo</th>
+                                <td><%=truePositive%></td>
+                                <td><%=falseNegative%></td>
+                            </tr>
+                            <tr>
+                                <th>Caso Negativo</th>
+                                <td><%=falsePositive%></td>
+                                <td><%=trueNegative%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <p><strong>Precisão: </strong><%=new DecimalFormat("0.00").format((double) truePositive / (truePositive + falsePositive)*100)%>%</p>
+                    <p><strong>Taxa VP: </strong><%=new DecimalFormat("0.00").format((double) truePositive / (truePositive + falseNegative)*100)%>%</p>
+                    <p><strong>Taxa FP: </strong><%=new DecimalFormat("0.00").format((double) falsePositive / (falsePositive + trueNegative)*100)%>%</p>
+                </div>
             </div>
         </div>
         <%@include file="interfaceFooter.jsp" %>

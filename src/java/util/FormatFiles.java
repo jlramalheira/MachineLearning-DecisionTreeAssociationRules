@@ -53,10 +53,10 @@ public class FormatFiles {
         writer.flush();
     }
 
-    public static void writeInFile(String line, int size, PrintWriter writer) {
+    public static void writeInFile(String line, int size, int[] positions, PrintWriter writer) {
         String[] values = line.split(", ");
         for (int i = 0; i < size; i++) {
-            writer.print(values[i] + ",");
+            writer.print(values[positions[i]] + ",");
         }
         writer.println();
         writer.flush();
@@ -123,10 +123,12 @@ public class FormatFiles {
             writerTest.println("@relation Teste");
             writerTraining.println();
             writerTest.println();
+            
+            System.out.println("");
 
-            for (int i = 0; i < size; i++) {
-                writerTraining.println("@attribute " + columns[i] + " {" + sets.get(i).toString().replace("[", "").replace("]", "") + "}");
-                writerTest.println("@attribute " + columns[i] + " {" + sets.get(i).toString().replace("[", "").replace("]", "") + "}");
+            for (int i = 0; i < total; i++) {
+                writerTraining.println("@attribute " + columns[i] + " {" + sets.get(positions[i]).toString().replace("[", "").replace("]", "") + "}");
+                writerTest.println("@attribute " + columns[i] + " {" + sets.get(positions[i]).toString().replace("[", "").replace("]", "") + "}");
             }
 
             writerTraining.println();
@@ -163,16 +165,16 @@ public class FormatFiles {
                     Collections.shuffle(lines);
                     int limit = (range / DIVIDERRANGE);
                     for (int i = 0; i < limit; i++) {
-                        writeInFile(lines.get(i), size, writerTraining);
+                        writeInFile(lines.get(i), total, positions, writerTraining);
                     }
                     for (int i = limit; i < lines.size(); i++) {
-                        writeInFile(lines.get(i), size, writerTest);
+                        writeInFile(lines.get(i), total, positions, writerTest);
                     }
                     lines.clear();
                 }
             }
             for (int i = 0; i < lines.size(); i++) {
-                writeInFile(lines.remove(i), size, writerTraining);
+                writeInFile(lines.remove(i), total, positions, writerTraining);
             }
             bufferedReader.close();
             fileReader.close();
